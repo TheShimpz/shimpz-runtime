@@ -63,8 +63,16 @@ authority to amend this decision record or `SPEC.md` Draft 0.2; the questions it
 | Human continuation | Current Action continuation is bounded replay | Admit a separate or superseding Runtime state machine |
 | Chains | Durable `after_*` can overlap reserved Routine language | Keep the concepts disjoint and admit separately |
 | Frontend | Static sites use the Svelte and Tailwind lane | Decide whether an immutable Runtime Project version may instead contain static frontend assets and Rust endpoint code |
+| Browser safety | Draft 0.2 assigns escaping, sanitized raw HTML, and restrictive response policy to Runtime page rendering | Decide how an isolated frontend build plus non-weakenable Gateway policy preserves the same security intent |
 | Dependencies | Native packages, frontend packages, macros, FFI, egress, and secrets widen trust | Start with fixed offline Rust and frontend sets; admit wider classes separately |
-| WebSocket | `shimpz.chat.v4` is the existing browser chat contract | Runtime realtime needs a separate producer-owned protocol |
+| Reduced surface | Draft 0.2 includes pages, events, project calls, chains, human input, database, storage, secrets, outbound HTTP, authenticated principals, and sessions | Decide whether v1 contains only static HTTP, anonymous public Rust HTTP, and anonymous request/response WebSocket |
+| Authoring surface | Draft 0.2 exposes separate source, validation, build, publication, rollback, dependency, invocation, and human-response methods | Decide whether authoring is reduced to `project.inspect`, `project.change`, and `change.status` |
+| Change lifecycle | Draft 0.2 exposes separate revision and version states plus build cancellation | Decide whether one Change, four terminal outcomes, and five observable internal phases are sufficient |
+| Activation authority | Draft 0.2 activates a validated artifact through Runtime publication | Decide which external authority permits one exact digest and how Project Control proves it cannot self-authorize |
+| WebSocket | Draft 0.2 preserves Runtime-owned connections across publication and `shimpz.chat.v4` is the existing browser chat contract | Decide whether reduced v1 may close old-version connections and admit a separate producer-owned protocol |
+| Rollback | Draft 0.2 rolls back to one exact retained version without rebuilding or approximate fallback | Decide whether rollback is deferred from reduced v1 |
+| Project deletion | Draft 0.2 requires residue-complete deletion | Assign retention and deletion authority before deciding whether deletion enters reduced v1 |
+| Serving roles | Draft 0.2 permits multiple roles of one binary | Decide whether v1 exposes one trusted Runtime product surface with separate internal Gateway and Control authorities |
 | Public origin | No Runtime Project hostname namespace or browser-isolation authority exists | Admit origin ownership and isolate both Shimpz control surfaces and sibling Projects before serving public content |
 
 ## 4. P0-1: ontology, admission, and source custody
@@ -146,9 +154,8 @@ availability.
 
 ## Changelog
 
-- **Discussion update — 2026-08-23:** Linked the alternative reduced-v1 visual proposal; recorded its frontend,
-  public-origin, and dependency-catalog questions; and expanded toolchain and provenance evidence without changing
-  SPEC Draft 0.2.
+- **Discussion update — 2026-08-23:** Reduced the visual proposal to Project, Member, Change, three authoring
+  operations, two diagrams, and six security invariants; added its principal conflicts with SPEC Draft 0.2.
 - **Draft 0.2 — 2026-08-22:** Moved deliberative material out of the functional SPEC, preserved all open P0
   decisions, and made the target-contract boundary explicit.
 - **Draft 0.1 — 2026-08-22:** Established conflicts, proposed boundaries, four P0 decisions, candidate first
