@@ -1,0 +1,144 @@
+# Shimpz Runtime Draft Decisions
+
+| Field | Value |
+|---|---|
+| Status | Open deliberation for Draft 0.2 |
+| Authority | Non-authoritative coordination record |
+| Implementation | Unavailable; this document authorizes no implementation |
+| Owner | Juliano |
+| Umbrella evidence | `TheShimpz/shimpz@afaee04e9163c1810e5ab02ceac6071fe6b7197d` |
+| Updated | 2026-08-22 |
+
+This file preserves unresolved architecture, authority, admission, and implementation-order decisions outside the
+functional contract in [`SPEC.md`](SPEC.md). Describing target behavior in the SPEC does not close any decision in
+this file, admit a first vertical, or change current Shimpz architecture.
+
+## 1. Current evidence
+
+- Brain reasons over admitted Assistant capabilities and does not execute Actions or acquire Assistant authority
+  (`shimpz/.context/ARCHITECTURE.md:69-82`).
+- The current product mechanism executes programmed Actions instead of generating a new implementation for each
+  task (`shimpz/.context/PRODUCT.md:117-120`).
+- The shipped Brain prompt rejects code execution, dependencies, shell, and filesystem access
+  (`shimpz/brain/agent_runtime.py:305-316`).
+- Team owns authorization, binding, Actions, and the current human-request lifecycle
+  (`shimpz/.context/ARCHITECTURE.md:118-133`).
+- PostgreSQL has no current Runtime Project or Assistant Service-binding contract
+  (`shimpz/.context/ARCHITECTURE.md:547-561`).
+- The previous root `runtime/` was retired and is rejected by repository-shape admission
+  (`shimpz/.context/ARCHITECTURE.md:347-356`, `shimpz/.scripts/repo-shape.py:32-70`).
+- Existing umbrella Rust workspaces are pinned to 1.97.1. Rust 1.98.0 is the proposed Runtime baseline, but an exact
+  toolchain artifact and checksum have not been admitted.
+
+## 2. Boundary carried by Draft 0.2
+
+- The SPEC describes a target Runtime-local contract, not current availability or current umbrella authority.
+- It does not define Team HTTP or challenge protocols, Developers publication or source-package protocols,
+  `shimpz.chat.v4`, PostgreSQL Service binding, or repository admission.
+- A capability that needs another domain remains unavailable until that domain supplies an admitted binding.
+- Runtime Project and Operation are document-local concepts, not new current Shimpz actors.
+- Runtime human input is a proposed Runtime-local state machine. It does not modify the current Action human-request
+  contract.
+- Runtime-local `after_*` chains are not Routine. Routine remains reserved and unchanged.
+- The functional surface is execution-model-neutral. It does not select WebAssembly Component or native execution.
+- Describing the complete target surface does not select it as the first implementation vertical. The previously
+  rejected hybrid first vertical remains rejected.
+- No Product, Architecture, or shipped Brain-prompt amendment has occurred.
+
+## 3. Conflict register
+
+| Conflict | Current constraint | Required closure |
+|---|---|---|
+| Brain authors Rust | Product and the live prompt reject generated-code execution | Amend those authorities or reject the proposal |
+| Capability admission | Assistant to Action uses Developers to Store to Team | Map Runtime to that path or admit a separate Team-private class |
+| Root path | `runtime/` is retired and gate-enforced absent | Supersede the retirement before any mount |
+| Authoring contract | Assistant Spec v1 is Python and direct-process | Decide replacement, extension, or disjoint contract |
+| Control authority | Account, Admin, Developers, Team, and Services own distinct authority | Keep Runtime from absorbing peer ownership |
+| PostgreSQL | No Runtime Service binding exists | Admit a binding before `ctx.db()` is available |
+| Human continuation | Current Action continuation is bounded replay | Admit a separate or superseding Runtime state machine |
+| Chains | Durable `after_*` can overlap reserved Routine language | Keep the concepts disjoint and admit separately |
+| Frontend | Static sites use the Svelte and Tailwind lane | Keep static sites separate from Runtime server-rendered pages |
+| Dependencies | Native packages, macros, FFI, egress, and secrets widen trust | Start fixed and offline; admit wider classes separately |
+| WebSocket | `shimpz.chat.v4` is the existing browser chat contract | Runtime realtime needs a separate producer-owned protocol |
+
+## 4. P0-1: ontology, admission, and source custody
+
+| Option | Meaning |
+|---|---|
+| A | Runtime Project and Operation implement Assistant and Action through Developers to Store to Team |
+| B | Runtime is a separate Team-private capability with its own admitted lifecycle |
+| C | Brain may produce artifacts, but cannot invoke Runtime Operations |
+
+The selected option must name source custody, readers, retention, backup treatment, profile-specific storage,
+admission authority, deletion owner, and residue-complete deletion. Renaming an Assistant-equivalent capability
+cannot bypass the standard Assistant path.
+
+**Provisional recommendation:** B, only if the owner explicitly admits the new trust class.
+
+**Status:** Open.
+
+## 5. P0-2: first vertical
+
+| Option | Vertical |
+|---|---|
+| A | Produce an immutable static artifact for the separate site-delivery lane |
+| B | Execute one pure typed Rust operation with no database, realtime, events, pages, chains, or human input |
+| C | Implement HTTP, database, catalog, chains, human input, and audit together |
+
+**Provisional recommendation:** B. Option C remains rejected as a first vertical because it is not independently
+reviewable. The complete surface in the SPEC is a target contract, not an implementation sequence.
+
+**Status:** Open.
+
+## 6. P0-3: execution substrate
+
+| Option | Meaning |
+|---|---|
+| A | WebAssembly Component inside an outer isolation boundary |
+| B | Native Rust inside a Team-bound outer sandbox |
+| C | Native process with operating-system isolation alone |
+
+The decision must evaluate capability closure, Rust compatibility, blast radius, density, cold start, patching,
+egress, secrets, provenance, and measured build and execution limits. The SPEC remains neutral between A and B.
+Option C remains rejected without equivalent adversarial evidence.
+
+**Status:** Open.
+
+## 7. P0-4: profile scope
+
+| Option | Meaning |
+|---|---|
+| A | One Local and Hosted concept with a Hosted-first implementation proof |
+| B | Local-first implementation proof |
+| C | Implement Local and Hosted together |
+
+**Provisional recommendation:** A.
+
+**Status:** Open.
+
+## 8. Promotion ledger
+
+| ID | Decision | Promotion gate |
+|---|---|---|
+| P0-1 | Ontology, admission, source custody, and deletion | Explicit owner choice and complete lifecycle contract |
+| P0-2 | First implementation vertical | Explicit owner choice |
+| P0-3 | Artifact format and execution substrate | Threat model and measured isolation decision |
+| P0-4 | Profile implementation order | Explicit owner choice and assurance statement |
+| P1-1 | Exact public naming | Vocabulary decision |
+| P1-2 | Rust reviewability limits | Measured authoring evidence |
+| P1-3 | Toolchain and SDK provenance | Exact artifact, checksum, and provenance before building |
+| P1-4 | Cross-domain protocol surfaces | Producer-owned contracts after P0 closure |
+
+Draft 0.x can become SPEC v1 only after all P0 decisions are owner-approved; an ADR admits the new repository and
+domain and updates the ADR-0019 repository registry; root retirement and repository-shape gates are superseded;
+the umbrella `.scripts/validate-architecture` passes before any mount; Product, Brain, Assistant, Developers,
+Store, Team, and Services impacts are resolved; artifact format, builder boundary, profile scope, complete data
+lifecycle, and protocol ownership are normative; and no text confuses target behavior with implemented
+availability.
+
+## Changelog
+
+- **Draft 0.2 — 2026-08-22:** Moved deliberative material out of the functional SPEC, preserved all open P0
+  decisions, and made the target-contract boundary explicit.
+- **Draft 0.1 — 2026-08-22:** Established conflicts, proposed boundaries, four P0 decisions, candidate first
+  vertical, deferrals, and promotion gates.
