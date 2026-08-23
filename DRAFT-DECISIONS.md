@@ -7,11 +7,14 @@
 | Implementation | Unavailable; this document authorizes no implementation |
 | Owner | Juliano |
 | Umbrella evidence | `TheShimpz/shimpz@afaee04e9163c1810e5ab02ceac6071fe6b7197d` |
-| Updated | 2026-08-22 |
+| Updated | 2026-08-23 |
 
 This file preserves unresolved architecture, authority, admission, and implementation-order decisions outside the
 functional contract in [`SPEC.md`](SPEC.md). Describing target behavior in the SPEC does not close any decision in
 this file, admit a first vertical, or change current Shimpz architecture.
+
+The informative [`DESIGN.md`](DESIGN.md) is an alternative reduced-v1 visual proposal for discussion. It carries no
+authority to amend this decision record or `SPEC.md` Draft 0.2; the questions it raises are recorded below.
 
 ## 1. Current evidence
 
@@ -29,6 +32,8 @@ this file, admit a first vertical, or change current Shimpz architecture.
   (`shimpz/.context/ARCHITECTURE.md:347-356`, `shimpz/.scripts/repo-shape.py:32-70`).
 - Existing umbrella Rust workspaces are pinned to 1.97.1. Rust 1.98.0 is the proposed Runtime baseline, but an exact
   toolchain artifact and checksum have not been admitted.
+- Umbrella repository governance requires Node.js 24 for every Node.js workload
+  (`shimpz/AGENTS.md:80`).
 
 ## 2. Boundary carried by Draft 0.2
 
@@ -57,9 +62,10 @@ this file, admit a first vertical, or change current Shimpz architecture.
 | PostgreSQL | No Runtime Service binding exists | Admit a binding before `ctx.db()` is available |
 | Human continuation | Current Action continuation is bounded replay | Admit a separate or superseding Runtime state machine |
 | Chains | Durable `after_*` can overlap reserved Routine language | Keep the concepts disjoint and admit separately |
-| Frontend | Static sites use the Svelte and Tailwind lane | Keep static sites separate from Runtime server-rendered pages |
-| Dependencies | Native packages, macros, FFI, egress, and secrets widen trust | Start fixed and offline; admit wider classes separately |
+| Frontend | Static sites use the Svelte and Tailwind lane | Decide whether an immutable Runtime Project version may instead contain static frontend assets and Rust endpoint code |
+| Dependencies | Native packages, frontend packages, macros, FFI, egress, and secrets widen trust | Start with fixed offline Rust and frontend sets; admit wider classes separately |
 | WebSocket | `shimpz.chat.v4` is the existing browser chat contract | Runtime realtime needs a separate producer-owned protocol |
+| Public origin | No Runtime Project hostname namespace or browser-isolation authority exists | Admit origin ownership and isolate both Shimpz control surfaces and sibling Projects before serving public content |
 
 ## 4. P0-1: ontology, admission, and source custody
 
@@ -126,8 +132,10 @@ Option C remains rejected without equivalent adversarial evidence.
 | P0-4 | Profile implementation order | Explicit owner choice and assurance statement |
 | P1-1 | Exact public naming | Vocabulary decision |
 | P1-2 | Rust reviewability limits | Measured authoring evidence |
-| P1-3 | Toolchain and SDK provenance | Exact artifact, checksum, and provenance before building |
+| P1-3 | Toolchain, SDK, build-cache, and builder-attestation provenance | Exact artifacts, checksums, cache verification, attestation trust, and provenance before building |
 | P1-4 | Cross-domain protocol surfaces | Producer-owned contracts after P0 closure |
+| P1-5 | Public origin namespace and browser isolation | Exact authority, ownership conflict handling, cookie isolation, and profile-specific threat model |
+| P1-6 | Dependency Catalog governance | Admission evidence, bounded discovery, vulnerability response, notification, blocking, and revocation |
 
 Draft 0.x can become SPEC v1 only after all P0 decisions are owner-approved; an ADR admits the new repository and
 domain and updates the ADR-0019 repository registry; root retirement and repository-shape gates are superseded;
@@ -138,6 +146,9 @@ availability.
 
 ## Changelog
 
+- **Discussion update — 2026-08-23:** Linked the alternative reduced-v1 visual proposal; recorded its frontend,
+  public-origin, and dependency-catalog questions; and expanded toolchain and provenance evidence without changing
+  SPEC Draft 0.2.
 - **Draft 0.2 — 2026-08-22:** Moved deliberative material out of the functional SPEC, preserved all open P0
   decisions, and made the target-contract boundary explicit.
 - **Draft 0.1 — 2026-08-22:** Established conflicts, proposed boundaries, four P0 decisions, candidate first
